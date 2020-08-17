@@ -1,5 +1,5 @@
-// 模拟instanceOf
-//  L instanceOf R
+// 模拟instanceof
+//  L instanceof R
 // L 表示左表达式，P表示右表达式
 
 function instance_of(L, R) {
