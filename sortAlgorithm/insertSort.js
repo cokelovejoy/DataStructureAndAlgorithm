@@ -7,7 +7,7 @@ function insertSort(arr) {
     let n = arr.length
     let preIndex, current
 
-    for (let i = 1; i < n; i++) {
+    for (let i = 1; i < n; i++) { // 每循环一次，要拿之前排好序的序列 和 后面的一个数比较
         preIndex = i - 1
         current = arr[i]
         // 在while循环中，current的值是固定的，始终是拿着个值和之前的值比较，
