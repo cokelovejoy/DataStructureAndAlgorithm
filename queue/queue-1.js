@@ -1,6 +1,6 @@
 /**
  * queue 队列 
- * 特点： 先进先出，出队列在头，入队列在尾
+ * 特点：先进先出，出队列在头，入队列在尾
  * 使用数组实现队列
  * 队列方法：
  * enqueue
@@ -44,3 +44,6 @@ function Queue() {
         return arr.length == 0
     }
 }
+
+
+module.exports = { Queue }
