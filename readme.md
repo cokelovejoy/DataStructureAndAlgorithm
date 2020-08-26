@@ -1,3 +1,11 @@
+# JS实现
+1. JS实现apply
+2. JS实现call
+3. JS实现bind
+4. JS实现deepClone
+5. JS实现eventBus
+6. JS实现instanceof
+7. JS实现new
 # data structure
 ## stack 栈
 1. 实现一个栈
