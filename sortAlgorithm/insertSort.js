@@ -5,11 +5,9 @@
  */
 function insertSort(arr) {
     let n = arr.length
-    let preIndex, current
-
     for (let i = 1; i < n; i++) { // 每循环一次，要拿之前排好序的序列 和 后面的一个数比较
-        preIndex = i - 1
-        current = arr[i] //始终保持i位置的值，不改变。
+        let preIndex = i - 1
+        let current = arr[i] //始终保持i位置的值，不改变。
         // 在while循环中，current的值是固定的，始终是拿着个值和之前的值比较，
         while (preIndex >= 0 && arr[preIndex] > current) {    // 如果大于 current的值，且游标 >= 0
             arr[preIndex + 1] = arr[preIndex]                 // 仅仅是将后一位赋值为前一位的值。
