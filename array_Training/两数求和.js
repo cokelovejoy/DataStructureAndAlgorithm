@@ -15,3 +15,18 @@ function getSum(nums, target) {
 const nums = [2, 7, 11, 15];
 const target = 9;
 console.log("data: ", getSum(nums, target));
+
+// 使用map 或者对象字面量，空间换时间, 使用一次循环 找到结果
+// 求和问题 转化为 求差问题
+
+function getSumByMap(nums, target) {
+  let recoder = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    if (recoder.get(target - nums[i]) !== undefined) {
+      return [recoder.get(target - nums[i]), i];
+    }
+    recoder.set(nums[i], i);
+  }
+}
+
+console.log("data: ", getSumByMap(nums, target));
