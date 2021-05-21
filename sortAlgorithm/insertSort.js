@@ -3,19 +3,43 @@
  * 原理： 从一开始构建有序序列，对于未排序的数据，在已经排序的序列中从后向前扫描，找到相应位置并插入。
  * 
  */
-function insertSort(arr) {
-    let n = arr.length
-    for (let i = 1; i < n; i++) { // 每循环一次，要拿之前排好序的序列 和 后面的一个数比较
-        let preIndex = i - 1
-        let current = arr[i] //始终保持i位置的值，不改变。
-        // 在while循环中，current的值是固定的，始终是拿着个值和之前的值比较，
-        while (preIndex >= 0 && arr[preIndex] > current) {    // 如果大于 current的值，且游标 >= 0
-            arr[preIndex + 1] = arr[preIndex]                 // 仅仅是将后一位赋值为前一位的值。
-            preIndex--                                        // 下标向前移动一位
+ function myInsertSort(nums) {
+    let len = nums.length;
+    for (let i = 1; i < len; i++) { // 从第二个元素开始，把第一个元素作为已经有序的序列
+      for (let j = i; j > 0; j--) { // 逐个比较，排序
+        if (nums[j] < nums[j-1]) {
+          let temp = nums[j];
+          nums[j] = nums[j-1];
+          nums[j-1] = temp;
+        } else {
+          break;
         }
-        arr[preIndex + 1] = current                           // 如果进入了while循环，则元素移动了，需要把current值赋值给 原来的缺口中。没有进循环，则还是在原来的位置赋值为current的值
+      }
     }
-    return arr
-}
+    return nums;
+  }
+  console.log(
+    myInsertSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
+  );
+  
+  function myInsertSort2(nums) {
+    let len = nums.length;
+    for (let i = 1; i < len; i++) {
+      let cur = nums[i]; // 使用临时变量 存储当前值，严格大于当前值的元素直接向后移动一位
+      let j = i;
+      while (j > 0 && nums[j - 1] > cur) {
+        nums[j] = nums[j-1];
+        j--;
+      }
+      // 放置当前值应该占的位置
+      nums[j] = cur;
+    }
+    return nums;
+  }
+  
+  console.log(
+    myInsertSort2([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48])
+  );
+  
 
 console.log(insertSort([3, 44, 38, 5, 47, 15, 36, 26, 27, 2, 46, 4, 19, 50, 48]))

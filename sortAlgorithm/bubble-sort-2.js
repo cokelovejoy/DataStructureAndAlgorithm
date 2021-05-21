@@ -13,7 +13,7 @@ function bubbleSort_improve_2(arr) {
                 let temp = arr[i]
                 arr[i] = arr[i+1]
                 arr[i+1] = temp
-                pos = i                      // 交换改变pos值
+                pos = i + 1                     // 交换改变pos值
             }
         }
         length = pos                         // 改变length，直到length为 0, 即没有交换的时候，退出循环。
