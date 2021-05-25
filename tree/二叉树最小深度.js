@@ -11,7 +11,7 @@ function minDepth1(root) {
   let depth = 1;
   while (queue.length) { // 遍历直到清空 当前层的结点队列
     const levelSize = queue.length; // 当前层的结点个数
-    for (let i = 0; i < levelSize; i++) { // 遍历，组个出列
+    for (let i = 0; i < levelSize; i++) { // 遍历，逐个出列
       const cur = queue.shift();
       if (cur.left === null && cur.right === null) {
         // 如果没有孩子，直接返回层数
