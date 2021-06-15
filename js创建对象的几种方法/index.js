@@ -6,7 +6,7 @@ function createPerson(name, age) {
     obj.name = name;
     obj.age = age;
     obj.sayName = function () {
-        alertzzzzzzzzzz('my name is ' + this.name);
+        alert('my name is ' + this.name);
     }
     return obj;
 }
@@ -70,3 +70,30 @@ function Person(name, age) {
     }
 }
 // 6. 寄生构造函数模式
+// 这个模式和工厂模式基本上是一摸一样的，只是采用 new 操作符最后来创建对象。
+// 注意在构造函数不返回值的情况下，默认会返回新创建的对象，而通过在构造函数的末尾添加一个 return 语句，可以重写调用构造函数时返回的值。
+// 缺点 和工厂模式一样，无法确定对象的类型。
+
+function Person(name, age) {
+    let obj = new Object();
+    obj.name = name;
+    obj.age = age;
+    obj.sayName = function() {
+        alert(this.name);
+    };
+    return obj;
+}
+
+let person = new Person("coke", 18);
+
+// 7. 稳妥构造函数模式
+// 所谓稳妥对象，指的就是，没有公共属性，而且其方法也不使用 this 的对象。稳妥对象最适合在一些安全的环境中（这些环境中会禁止使用 this 和 new），或者在防止数据被其他应用程序改动时使用。
+// 不使用new操作符调用构造函数，也不引用this。
+// 只能通过方法访问数据，这就是稳妥构造函数提供的安全性。
+function Person(name, age) {
+    let obj = new Object();
+    obj.sayName = function() {
+        console.log(name);
+    }
+    return obj;
+}
