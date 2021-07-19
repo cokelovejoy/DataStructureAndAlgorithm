@@ -6,6 +6,7 @@
  * 分解 ：把长度为n的待排序列分解成两个长度为n/2的序列
  * 治理 ：对每个子序列分别调用归并排序，进行递归操作。当子序列长度为1时，序列本身有序，停止递归。
  * 合并 ：合并每个排序好的子序列。
+ * 归并排序的时间复杂度为： O(nlogn); 空间复杂度为O(n);
  */
 
 function mergeSort(arr) {
@@ -18,18 +19,18 @@ function mergeSort(arr) {
   let right = arr.slice(middle);    // 右边数组
   return merge(mergeSort(left), mergeSort(right)); // 递归处理左右数组，再合并
 }
-
+// 合并两个数组
 function merge(left, right) {
   let result = [];
   console.time("merge");
   while (left.length && right.length) {
-    if (left[0] <= right[0]) {
-      result.push(left.shift());
+    if (left[0] <= right[0]) { // 始终将左边数组的第一个 值和 右边数组的第一个值比较，将较小的那个加入到新的数组中
+      result.push(left.shift()); 
     } else {
       result.push(right.shift());
     }
   }
-  while (left.length) {
+  while (left.length) { // 左边数组还有剩余，右边数组还有剩余，依次加入到数组中
     result.push(left.shift());
   }
   while (right.length) {
