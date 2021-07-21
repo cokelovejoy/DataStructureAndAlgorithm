@@ -5,7 +5,7 @@ function search(nums, target) {
   let right = nums.length - 1;
   let mid;
   while (left <= right) {
-     mid = left + Math.floor((right - left) / 2);
+    mid = left + Math.floor((right - left) / 2);
     if (nums[mid] < target) {
       left = mid + 1;
     } else if (nums[mid] > target) {
@@ -17,4 +17,4 @@ function search(nums, target) {
   return nums[left] === target ? left : -1;
 }
 
-console.log(search([-1, 0,3,5,9,12], 9))
+console.log(search([-1, 0, 3, 5, 9, 12], 9));
