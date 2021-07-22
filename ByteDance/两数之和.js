@@ -4,19 +4,27 @@
 // 暴力解法
 function twoSum(nums, target) {
   let len = nums.length;
-  let res = [];
   for (let i = 0; i < len; i++) {
     let cur = nums[i];
-    res[0] = i;
     for (let j = i+1; j < len; j++) {
       let point = nums[j];
       if (cur === target - point) {
-        res[1] = j;
-        return res;
+        return [i, j];
       }
     }
   }
 }
+// 使用map记录已经遍历的元素
+function twoSum2(nums, target) {
+  let len = nums.length;
+  let mapObj = {};
+  for (let i = 0; i < len; i++) {
+    if (mapObj[target - nums[i]] === undefined) {
+      mapObj[nums[i]] = i;
+    } else {
+      return [mapObj[target - nums[i]], i];
+    }
+  }
+}
 
-
-console.log(twoSum([2,7,11,15], 9))
+console.log(twoSum2([2,7,11,15], 9))
