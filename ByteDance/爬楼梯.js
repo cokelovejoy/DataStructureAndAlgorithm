@@ -17,13 +17,9 @@ function climbStairs(n) {
 function climbStairs(n) {
   function climbStairSub(n, memo) {
     if (memo[n] > 0) return memo[n];
-    if (n == 1) {
-      memo[1] = 1;
-      return memo[1];
-    }
-    if (n == 2) {
-      memo[2] = 2;
-      return memo[2];
+    if (n == 1 || n == 0) {
+      memo[n] = 1;
+      return 1;
     }
     memo[n] = climbStairSub(n - 1, memo) + climbStairSub(n - 2, memo);
     return memo[n];
@@ -33,9 +29,9 @@ function climbStairs(n) {
 // 动态规划
 // 本问题其实常规解法可以分成多个子问题，爬第n阶楼梯的方法数量，等于 2 部分之和
 
-// 爬上 n-1n−1 阶楼梯的方法数量。因为再爬1阶就能到第n阶
-// 爬上 n-2n−2 阶楼梯的方法数量，因为再爬2阶就能到第n阶
-// 公式 dp[n] = dp[n-1] + dp[n-2]dp[n]=dp[n−1]+dp[n−2]
+// 爬上 n-1阶楼梯的方法数量。因为再爬1阶就能到第n阶
+// 爬上 n-2 阶楼梯的方法数量，因为再爬2阶就能到第n阶
+// 公式 dp[n] = dp[n-1] + dp[n-2]
 // 同时需要初始化 dp[0]=1  和  dp[1]=1
 
 var climbStairs = function (n) {
@@ -55,3 +51,17 @@ var climbStairs = function (n) {
     Math.pow((1 + sqrt_5) / 2, n + 1) - Math.pow((1 - sqrt_5) / 2, n + 1);
   return Math.round(fib_n / sqrt_5);
 };
+
+
+// 滚动数组
+// a---> f(0) = 1
+// b---> f(1) = 1
+var numWays = function(n) {
+  let a = 1, b = 1, sum = 0;
+  for (let i = 0; i < n; i++) {
+    sum = (a + b) % 1000000007;
+    a = b;
+    b = sum;
+  }
+  return a;
+}

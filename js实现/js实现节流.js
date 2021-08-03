@@ -10,7 +10,7 @@ function throttle(callBack, delay) {
     let nowTime = Date.now();
     // 如果两次时间间隔超过了指定的时间,才执行回调函数
     if (nowTime - preTime >= delay) {
-      preTime = Date.now();
+      preTime = Date.now();  // 重置开始时间
       return callBack.apply(context, args);
     }
   };

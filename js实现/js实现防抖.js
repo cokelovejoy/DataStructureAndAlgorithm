@@ -11,7 +11,7 @@ function deboundce(callBack, wait) {
       clearTimeout(timer);
       timer = null;
     }
-    // 设置定时器, 指定间隔时间后执行回调函数
+    // 重新设置定时器, 指定间隔时间后执行回调函数
     timer = setTimeout(()=> {
       callBack.apply(context, args);
     }, wait)
