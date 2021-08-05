@@ -1,4 +1,6 @@
-// 无重复字符的最长字串
+// 无重复字符的最长子串
+// 给定一个字符串s，找出其中不含有重复字符的最长子串的长度。
+
 // 暴力解法（双层循环 + set）
 // 以每个字符串为开头遍历一遍
 function lengthOfLongestSubstring(s) {
@@ -25,21 +27,20 @@ function lengthOfLongestSubstring(s) {
 // 2、不断移动右指针，直到遇到重复字符的时候把左指针移到前面的重复字符的下一位。（相当于把前面的重复字符删除）
 // 3、移动指针过程中，记录窗口长度的最大值即为答案。
 
-function longestSubString2(str) {
-  let len = str.length;
-  let l = 0; // 定义左指针
+function lengthOfLongestSubstring2(str) {
+  let left = 0; // 定义左指针
   let maxLen = 0;
+  let len = str.length;
   let map = new Map(); // 存放字符和对应下标
-  for (let r = 0; r < len; r++) {
-    // 出现重复字符,并且重复字符的索引要大于左指针索引，将左指针向右移动到重复字符的下一位
-    if (map.has(str[r]) && map.get(str[r]) >= l) {
-      l = map.get(str[r]) + 1;
+  for (let right = 0; right < len; right++) {
+    // 出现重复字符, 并且重复字符的索引要大于左指针索引，
+    // 将左指针向右移动到重复字符的下一位
+    if (map.has(str[right]) && map.get(str[right]) >= left) {
+      left = map.get(str[right]) + 1;
     }
     // 记录字符，及对应下标
-    maxLen = Math.max(maxLen, r - l + 1); // 字串长度
-    map.set(str[r], r); // 更新重复字符的 最新出现的位置
+    maxLen = Math.max(maxLen, right - left + 1); // 记录子串长度
+    map.set(str[right], right); // 记录 字符的出现的位置
   }
   return maxLen;
 }
-
-console.log(longestSubString2("abbcdea"));
