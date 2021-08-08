@@ -21,10 +21,10 @@ function threeSum(nums) {
       // i左指针，j右指针，退出循环条件i == j时
       let sum = nums[k] + nums[i] + nums[j]; // 三数之和
       if (sum < 0) { // 和小于0， i指针向右移动
-        while (i < j && nums[i] == nums[++i]);  // i 和i+1 相等直接将i后移
+        while (i < j && nums[i] == nums[++i]);  // i 和i+1 相等，跳过重复，直接将i后移
       } else if (sum > 0) { // 和大于0 ，j指针向左移动
-        while (i < j && nums[j] == nums[--j]); //  j 和 j-1 相等直接将j前移
-      } else { // 和为0 ，记录数据
+        while (i < j && nums[j] == nums[--j]); //  j 和 j-1 相等，跳过重复，直接将j前移
+      } else { // 和为0 ，记录数据， 跳过所有重复的nums[i]和nums[j]，防止记录到重复组合。
         res.push([nums[k], nums[i], nums[j]]);
         while (i < j && nums[i] == nums[++i]);
         while (i < j && nums[j] == nums[--j]);
