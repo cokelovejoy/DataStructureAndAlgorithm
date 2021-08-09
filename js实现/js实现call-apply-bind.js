@@ -1,52 +1,45 @@
 // js 实现call, apply, bind方法
 // context是上下文对象即重新绑定的this的指向
-// 函数内的this是当前函数的引用
+// call函数内的 this 其实就是调用call的函数实例对象，即当前函数
+Function.prototype.myCall = function (context, ...args) {
+  let cxt = context || window;
+  //将当前被调用的方法定义在cxt.func上.(为了能以对象调用形式绑定this)
+  //新建一个唯一的Symbol变量避免重复
+  let func = Symbol();
+  cxt[func] = this;
+  args = args ? args : [];
+  //以对象调用形式调用func,此时this指向cxt 也就是传入的需要绑定的this指向
+  const res = args.length > 0 ? cxt[func](...args) : cxt[func]();
+  //删除该方法，不然会对传入对象造成污染（添加该方法）
+  delete cxt[func];
+  return res;
+};
 
-Function.prototype.myCall = function (context) {
-  // 判断调用对象, this是调用call 方法的实例，它必须是一个方法
-  if (typeof this !== "function") {
-    throw new TypeError("error");
-  }
-  // 获取参数
-  let args = [...arguments].slice(1);
-  let result = null;
-  // 判断context是否传入，如果未传入则设置为window
-  contxt = context || window;
-  // 将调用函数设为对象的方法
-  contex.fn = this;
-  // 调用函数
-  result = context.fn(...args);
-  // 将属性删除
-  delete context.fn;
-  return result;
-}
 // apply 和 call 方法的区别，call的参数是多个，apply的参数是一个数组
-Function.prototype.myApply = function (context) {
-  if (typeof this !== "function") {
-    throw new TypeError("error");
-  }
-  let result = null;
-  context = context || window;
-  context.fn = this;
-  if (arguments[1]) {
-    result = context.fn(...arguments[1]);
-  } else {
-    result = context.fn();
-  }
-  delete context.fn();
-  return result;
-}
+Function.prototype.myApply = function (context, args = []) {
+  let cxt = context || window;
+  //将当前被调用的方法定义在cxt.func上.(为了能以对象调用形式绑定this)
+  //新建一个唯一的Symbol变量避免重复
+  let func = Symbol();
+  cxt[func] = this;
+  //以对象调用形式调用func,此时this指向cxt 也就是传入的需要绑定的this指向
+  const res = args.length > 0 ? cxt[func](...args) : cxt[func]();
+  delete cxt[func];
+  return res;
+};
 
 // bind 和apply ，call的区别是：返回的是一个函数；和call 一样传入的参数可以是多个
-Function.prototype.myBind = function (context) {
-  if (typeof this != "function") {
-    throw new TypeError("error");
-  }
-  let args = [...arguments].slice(1);
-  let fn = this;
-  return function Fn() {
-      // 判断函数作为构造函数的情况
-      // 这个时候需要传入当前函数的 this 给 apply 调用，其余情况都传 入指定的上下文对象
-      return fn.apply(this instanceof Fn ? this : context, args.concat(...arguments))
-  }
-}
+Function.prototype.myBind = function (context, ...args) {
+  //新建一个变量赋值为this，表示当前函数
+  const fn = this;
+  //判断有没有传参进来，若为空则赋值[]
+  args = args ? args : [];
+  //返回一个newFn函数，在里面调用fn
+  return function newFn(...newFnArgs) {
+    if (this instanceof newFn) {
+      // 通过 new 关键字，作为构造函数调用时
+      return new fn(...args, ...newFnArgs);
+    }
+    return fn.apply(context, [...args, ...newFnArgs]);
+  };
+};
