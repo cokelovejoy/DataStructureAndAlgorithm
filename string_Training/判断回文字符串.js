@@ -34,3 +34,5 @@ function validpalindrome(s) {
 }
 
 console.log(validpalindrome('abba'));
+// 动态规划法
+// 中心扩散法
