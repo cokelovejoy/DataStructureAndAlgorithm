@@ -1,23 +1,22 @@
 // 删除链表的倒数第N个节点
 // 给定一个链表,删除链表的倒数第n个节点,并返回链表的头节点.
+// 快慢指针
 function removeNthFromEnd(head, n) {
-  let left = head;
-  let right = head;
+  let dummyHead = {next:null};
+  let fast = head;
+  let slow = dummyHead;
+  dummyHead.next = head;
   for (let i = 0; i < n; i++) {
-    // right为第n个节点
-    right = right.next;
+    // fast 为第n个节点
+    fast = fast.next;
   }
-  if (right == null) {
-    return null;
+  
+  while (fast) {
+    // fast指针走到最后一个节点的时候, slow就是倒数第n个节点的前一个节点.
+    fast = fast.next;
+    slow = slow.next; // slow指针
   }
-  while (right) {
-    // right指针走到最后一个节点的时候, left就是倒数第n个节点的前一个节点.
-    right = right.next;
-    if (right == null) {
-      let next = left.next.next;
-      left.next = next;
-    }
-    left = left.next; // left指针
-  }
-  return head;
+  slow.next = slow.next.next; // 改变倒数第n个节点的前一个节点的指向。
+
+  return dummyHead.next;
 }
