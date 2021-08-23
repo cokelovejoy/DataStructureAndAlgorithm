@@ -25,18 +25,22 @@ function partition(array, left, right) {
   let i = left;
   let j = right;
   while (i <= j) {
+    // array[i] < pivot
     while (compare(array[i], pivot) === -1) {
       i++;
     }
+    // array[i] > pivot
     while (compare(array[j], pivot) === 1) {
       j--;
     }
+    // 交换i , j
     if (i <= j) {
       swap(array, i, j);
       i++;
       j--;
     }
   }
+  // 返回 i， i 为 焦点元素的位置
   return i;
 }
 // 快排函数
