@@ -24,24 +24,21 @@ function quickSort(nums, left, right) {
 // 大放过，小操作
 // 每次划分 都会排定 一个元素的位置。
 function partition(nums, left, right) {
-  let pointer = left; // 记录焦点元素的位置
-  let pivot = nums[left]; // 始终把区间的第一个元素作为焦点元素
-  for (let i = left + 1; i <= right; i++) { // 扫描区间元素，将小于焦点元素的元素，交换到前面
-    if (nums[i] < pivot) { 
-      console.log(i, pointer);
-      pointer++;
-      swap(nums, i, pointer, '小于'); // 交换焦点元素和
+  let pointer = left; // 记录焦点元素 初始位置
+  let pivot = nums[left]; // 始终把区间的第一个元素作为 焦点元素
+  for (let i = left + 1; i <= right; i++) {
+    // 扫描区间元素，将小于焦点元素的元素，交换到前面
+    if (nums[i] < pivot) {
+      pointer++; // 每次交换，pointer指向向后移动一位，说明比当前焦点元素小的数又多一个
+      swap(nums, i, pointer); // i代表小于焦点元素的数据的位置，pointer 为焦点元素所在位置，将小的数换到前面。
     }
   }
-  // pointer 记录的是焦点元素应该出现的位置，交换位置
-  swap(nums, left, pointer, '交换');
+  // pointer 记录的是（焦点元素left）最终应该出现的位置，因此交换位置，将焦点元素换到它最终应该出现的位置。
+  swap(nums, left, pointer);
   return pointer;
 }
 
-function swap(nums, index1, index2, type) {
-  console.log('**************************', type);
-  console.log('------------------- ', index1);
-  console.log('------------------- ', index2);
+function swap(nums, index1, index2) {
   let temp = nums[index1];
   nums[index1] = nums[index2];
   nums[index2] = temp;
