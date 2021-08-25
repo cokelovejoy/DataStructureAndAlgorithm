@@ -1,4 +1,10 @@
 // js 实现Promise
+/**
+ * 实现 Promise 需要完全读懂 Promise A+ 规范，不过从总体的实现上看，有如下几个点需要考虑到：
+ * Promise本质是一个状态机，且状态只能为以下三种：Pending（等待态）、Fulfilled（执行态）、Rejected（拒绝态），
+ * 状态的变更是单向的，只能从Pending -> Fulfilled 或 Pending -> Rejected，状态变更不可逆
+ * then 需要支持链式调用
+ */
 const PENDING = "pending"; // 等待状态
 const RESOLVED = "resolved"; // 已经成功状态
 const REJECTED = "rejected"; // 已经失败状态
@@ -88,3 +94,120 @@ MyPromise.prototype.then = function (onResolved, onRejected) {
     onRejected(this.value);
   }
 };
+
+// class 写法
+class Promise {
+  callbacks = [];
+  state = 'pending';//增加状态
+  value = null;//保存结果
+  constructor(fn) {
+      fn(this._resolve.bind(this), this._reject.bind(this));
+  }
+  then(onFulfilled, onRejected) {
+      return new Promise((resolve, reject) => {
+          this._handle({
+              onFulfilled: onFulfilled || null,
+              onRejected: onRejected || null,
+              resolve: resolve,
+              reject: reject
+          });
+      });
+  }
+  _handle(callback) {
+      if (this.state === 'pending') {
+          this.callbacks.push(callback);
+          return;
+      }
+
+      let cb = this.state === 'fulfilled' ? callback.onFulfilled : callback.onRejected;
+
+      if (!cb) {//如果then中没有传递任何东西
+          cb = this.state === 'fulfilled' ? callback.resolve : callback.reject;
+          cb(this.value);
+          return;
+      }
+
+      let ret = cb(this.value);
+      cb = this.state === 'fulfilled' ? callback.resolve : callback.reject;
+      cb(ret);
+  }
+  _resolve(value) {
+
+      if (value && (typeof value === 'object' || typeof value === 'function')) {
+          var then = value.then;
+          if (typeof then === 'function') {
+              then.call(value, this._resolve.bind(this), this._reject.bind(this));
+              return;
+          }
+      }
+
+      this.state = 'fulfilled';//改变状态
+      this.value = value;//保存结果
+      this.callbacks.forEach(callback => this._handle(callback));
+  }
+  _reject(error) {
+      this.state = 'rejected';
+      this.value = error;
+      this.callbacks.forEach(callback => this._handle(callback));
+  }
+}
+
+// 实现Promise.resolve
+// Promsie.resolve(value) 可以将任何值转成值为 value 状态是 fulfilled 的 Promise，
+// 但如果传入的值本身是 Promise 则会原样返回它。
+Promise.resolve= function (value) {
+  if (value && value instanceof Promise) {
+    return value;
+  } else if (value && typeof value === 'object' && typeof value.then === 'function') {
+    let then = value.then;
+    return new Promise(resolve => {
+      then(resolve);
+    });
+  } else if (value) {
+    return new Promise(resolve => resolve(value));
+  } else {
+    return new Promise(resolve => resolve());
+  }
+}
+
+// 实现Promise.reject
+// Promise.reject() 会实例化一个 rejected 状态的 Promise。但与 Promise.resolve() 不同的是，
+// 如果给 Promise.reject() 传递一个 Promise 对象，则这个对象会成为新 Promise 的值。
+Promise.reject = function(reason) {
+  return new Promise((resolve, reject) => reject(reason))
+}
+
+// 实现Promise.all
+// 传入的所有 Promsie 都是 fulfilled，则返回由他们的值组成的，状态为 fulfilled 的新 Promise；
+// 只要有一个 Promise 是 rejected，则返回 rejected 状态的新 Promsie，且它的值是第一个 rejected 的 Promise 的值；
+// 只要有一个 Promise 是 pending，则返回一个 pending 状态的新 Promise；
+Promise.all = function(promiseArr) {
+  let index = 0, result = []
+  return new Promise((resolve, reject) => {
+      promiseArr.forEach((p, i) => {
+          Promise.resolve(p).then(val => {
+              index++
+              result[i] = val
+              if (index === promiseArr.length) {
+                  resolve(result)
+              }
+          }, err => {
+              reject(err)
+          })
+      })
+  })
+}
+
+// 实现Promise.race
+// Promise.race 会返回一个由所有可迭代实例中第一个 fulfilled 或 rejected 的实例包装后的新实例。
+Promise.race = function(promiseArr) {
+  return new Promise((resolve, reject) => {
+      promiseArr.forEach(p => {
+          Promise.resolve(p).then(val => {
+              resolve(val)
+          }, err => {
+              reject(err)
+          })
+      })
+  })
+}

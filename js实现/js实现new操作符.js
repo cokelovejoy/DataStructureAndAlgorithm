@@ -12,13 +12,13 @@ function myNew(ctorFunc, ...args) {
    if (typeof ctorFunc !== 'function') {
       throw 'the first param must be a function';
    }
-   // 新建一个空对象，对象的原型为构造函数的prototype对象
+   // 新建一个空对象，对象的原型为构造函数的prototype对象，这就是构造函数的默认返回值。
    let newObject = Object.create(ctorFunc.prototype);
    // 执行构造函数, 将this指向新对象，为这个新建对象添加实例属性
    let result = ctorFunc.apply(newObject, args);
    // 判断构造函数执行返回的结果，
-   // 如果没有返回或返回了基础数据类型，则直接返回新创建的实例对象。
-   // 如果返回了引用数据类型的结果，则直接返回这个结果
+   // 如果返回了数据并且是引用数据类型的结果，则直接返回这个结果
+   // 否则没有返回（为undefined） 或 返回了 null， 基础数据类型，则直接返回构造函数新创建的实例对象。
    let flag = result && (typeof result === "object" || typeof result === "function");
 
    return flag ? result: newObject;
