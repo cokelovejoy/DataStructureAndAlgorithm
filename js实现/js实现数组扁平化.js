@@ -8,3 +8,23 @@ function fn(arr) {
     return prev.concat(Array.isArray(cur) ? fn(cur) : cur);
   }, []);
 }
+
+// 使用迭代的方式实现flatten函数
+/**
+ * 使用递归的方式处理
+ * wrap 内保存结果 ret
+ * 返回一个递归函数
+ */
+function wrap() {
+  var ret = [];
+  return function flat(a) {
+    for (var item of a) {
+      if (item.constructor === Array) {
+        ret.concat(flat(item));
+      } else {
+        ret.push(item);
+      }
+    }
+    return ret;
+  };
+}
