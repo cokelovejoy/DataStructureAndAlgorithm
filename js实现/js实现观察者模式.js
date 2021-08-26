@@ -40,6 +40,8 @@ let events = (function () {
 })();
 
 // 观察者模式
+// 观察者模式：定义了对象间一种一对多的依赖关系，当目标对象Subject发生改变时，
+// 所有依赖它的对象Observer都会得到通知。
 class Subject{
   constructor(name){
     this.name = name
