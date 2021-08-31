@@ -9,6 +9,7 @@ function postorderNode(node, result) {
   }
   postorderNode(node.left, result);
   postorderNode(node.right, result);
+  console.log(node.val);
   result.push(node.val);
 }
 const treeObj = {
