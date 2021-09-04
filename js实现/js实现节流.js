@@ -10,7 +10,7 @@ function throttle(callBack, delay) {
     let nowTime = Date.now();
     // 如果两次时间间隔超过了指定的时间,才执行回调函数
     if (nowTime - preTime >= delay) {
-      preTime = Date.now();  // 重置开始时间
+      preTime = Date.now(); // 重置开始时间
       return callBack.apply(context, args);
     }
   };
@@ -18,16 +18,16 @@ function throttle(callBack, delay) {
 
 // 在一定时间内只触发一次，场景：长列表滚动节流
 // 简约写法
-let throttle = (fn,time = 1000) => {
+let throttle = (fn, time = 1000) => {
   let flag = true;
 
-  return function (...args){
-      if(flag){
-          flag = false;
-          setTimeout(()=>{
-              flag = true;
-              fn(...args)
-          },time)
-      }
-  }
-}
+  return function (...args) {
+    if (flag) {
+      flag = false;
+      setTimeout(() => {
+        flag = true;
+        fn(...args);
+      }, time);
+    }
+  };
+};

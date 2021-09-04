@@ -1,6 +1,6 @@
 // ES6 继承
 // class 相当于es5中的构造函数
-// class中定义方法时，前后不能加function，全部定义在class的prototype属性中。
+// class 中定义方法时，前后不能加function，全部定义在class的prototype属性中。
 // class 中定义的所有方法是不可枚举的
 // class 中只能定义方法，不能定义对象，变量等
 // class 和方法内默认都是严格模式
