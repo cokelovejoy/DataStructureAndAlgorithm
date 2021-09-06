@@ -16,7 +16,7 @@ function Sub(obj) {
   this.sex = obj.sex; // 子类上为 实例声明的新的属性
 }
 // 继承的关键步骤
-// 1. 子类的原型对象要指向父类的原型对象，Object.create(obj)会创建一个新的对象，新创建的对象的__proto__指向现有的对象obj。
+// 1. 子类的原型对象要指向父类的原型对象，Object.create(obj)会创建一个新的对象，新创建的对象的 prototype 指向现有的对象obj。
 // 2. 子类的原型对象的构造函数constructor属性要指向自身。
 Sub.prototype = Object.create(Person.prototype);
 Sub.prototype.constructor = Sub;

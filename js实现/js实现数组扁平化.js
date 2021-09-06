@@ -9,22 +9,27 @@ function fn(arr) {
   }, []);
 }
 
+console.log(fn(arr));
 // 使用迭代的方式实现flatten函数
 /**
  * 使用递归的方式处理
  * wrap 内保存结果 ret
  * 返回一个递归函数
  */
-function wrap() {
-  var ret = [];
+function wrap(a) {
+  let ret = [];
   return function flat(a) {
-    for (var item of a) {
-      if (item.constructor === Array) {
-        ret.concat(flat(item));
+    for (let item of a) {
+      if (Array.isArray(item)) {
+        // 是数组的情况，继续将递归处理的结果拼接
+        flat(item);
       } else {
+        // 不是数组，直接添加
         ret.push(item);
       }
     }
     return ret;
   };
 }
+
+console.log(wrap()(arr));

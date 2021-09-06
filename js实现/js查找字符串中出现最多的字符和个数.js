@@ -10,9 +10,11 @@ str = str.split("").sort().join("");
 
 // 定义正则表达式
 let re = /(\w)\1+/g;
-str.replace(re, ($0, $1) => {
-  if (num < $0.length) {
-    num = $0.length;
+// match表示匹配的字符串
+// $1表示分组中第一个()匹配的字符
+str.replace(re, (match, $1) => {
+  if (num < match.length) {
+    num = match.length;
     char = $1;
   }
 });

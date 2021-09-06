@@ -13,23 +13,29 @@
     </div>
     <p></p>
     <script>
-      function mclick() {
-        console.log("1");
+      // for (var i = 0; i < 5; i++) {
+      //   (function (i) {
+      //     setTimeout(function () {
+      //       console.log(i);
+      //     }, i * 1000);
+      //   })(i);
+      // }
+      // let img = new Image(); // 新建图片对象实例
+      // img.src = './1.jpg';
+      // document.body.appendChild(img)
+      function sleep(delay) {
+        var start = new Date().getTime();
+        while (new Date().getTime() - start < delay) {
+          continue;
+        }
       }
-      function debounce(fn, wait) {
-        let timer = null;
-        return function (...args) {
-          if (timer) {
-            clearTimeout(timer);
-            timer = null;
-          }
-          timer = setTimeout(() => {
-            fn.apply(this, args);
-          }, wait);
-        };
+
+      function test() {
+        console.log("111");
+        sleep(2000);
+        console.log("222");
       }
-      let mybutton = document.getElementById("mybutton");
-      mybutton.addEventListener("click", debounce(mclick, 1000));
+      test();
     </script>
   </body>
 </html>

@@ -13,3 +13,10 @@ function shallowCopy(object) {
   }
   return newObject;
 }
+
+// example
+let a = { key1: "1", key2: "2" };
+let b = shallowCopy(a);
+console.log(b);
+let c = shallowCopy([1, 2, 3]);
+console.log(c);

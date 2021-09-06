@@ -1,6 +1,7 @@
 // js 实现使用闭包每隔一秒打印1，2，3，4
 // 方法1
 for (var i = 0; i < 5; i++) {
+  // 自执行函数
   (function (i) {
     setTimeput(function () {
       console.log(i);

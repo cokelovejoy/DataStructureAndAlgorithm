@@ -1,11 +1,11 @@
 // 函数柯里化是一种将使用多个参数的函数转换成一系列使用一个参数的函数的技术
+// 核心：搜集函数的参数，在满足函数要执行的参数个数时，执行
 function curry(fn, args) {
-  // 获取函数需要的参数长度
-  let length = fn.length;
+  let length = fn.length; // 函数定义时，需要传入的参数的个数
   args = args || [];
   return function () {
     let subArgs = args.slice(0);
-    // 拼接得到现有的所有参数
+    // 计算现有的所有参数
     for (let i = 0; i < arguments.length; i++) {
       subArgs.push(arguments[i]);
     }
@@ -21,8 +21,15 @@ function curry(fn, args) {
 }
 
 // es6 实现
+// 利用 curry.bind() 返回的是一个新函数，
+// 新函数内部会将新函数的参数合并成一个再去执行currya.apply(null, [fn, ...args, newargs])
+/**
+ * function (newargs) {
+ *  curry.apply(null, [fn, ...args, newargs])
+ * }
+ */
 function curry(fn, ...args) {
-  return fn.length <= args.length ? fn(...args) : curry.bind(null, fn, ...args);
+  return args.length >= fn.length ? fn(...args) : curry.bind(null, fn, ...args);
 }
 
 // 简单实现
@@ -30,20 +37,5 @@ function sumFn(a, b, c) {
   return a + b + c;
 }
 let sum = curry(sumFn);
-sum(2)(3)(5); //10
-sum(2, 3)(5); //10
-
-function curry(fn, ...args) {
-  let fnLen = fn.length,
-    argsLen = args.length;
-  //对比函数的参数和当前传入参数
-  //若参数不够就继续递归返回curry
-  //若参数够就调用函数返回相应的值
-  if (fnLen > argsLen) {
-    return function (...arg2s) {
-      return curry(fn, ...args, ...arg2s);
-    };
-  } else {
-    return fn(...args);
-  }
-}
+console.log(sum(2)(3)(5)); //10
+console.log(sum(2, 3)(5)); //10

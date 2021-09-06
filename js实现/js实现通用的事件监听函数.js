@@ -1,5 +1,5 @@
 const EventUtils = {
-  // 视能力分别使用dom0||dom2||IE方式 来绑定事件
+  // 视能力分别使用dom0 || dom2 || IE方式 来绑定事件
   // 添加事件
   addEvent: function (element, type, handler) {
     if (element.addEventListener) {

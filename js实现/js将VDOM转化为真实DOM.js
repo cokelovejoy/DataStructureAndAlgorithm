@@ -1,13 +1,13 @@
 // vnode结构：
 // {
-//   tag,
-//   attrs,
-//   children,
+//   tag:"div",  当前节点的标签
+//   attrs:{}, 当前节点的属性
+//   children: [] 当前节点子节点数组
 // }
 // 将虚拟Virtual DOM转化为真实DOM
-//Virtual DOM => DOM
+// Virtual DOM => DOM
 function render(vnode, container) {
-  container.appendChild(_render(vnode));
+  container.appendChild(_render(vnode)); // 将真实dom添加容器里
 }
 function _render(vnode) {
   // 如果是数字类型转化为字符串
